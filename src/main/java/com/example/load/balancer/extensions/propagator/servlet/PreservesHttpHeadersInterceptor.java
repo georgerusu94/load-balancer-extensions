@@ -58,9 +58,9 @@ public class PreservesHttpHeadersInterceptor implements GlobalFilter, Ordered {
         } catch (Exception e) {
             log.debug("Failed to propagate http request header.", e);
         }
-        return chain.filter(exchange).doFinally(signalType -> {
+        return chain.filter(exchange).doOnTerminate(() -> {
             remove();
-            log.trace("Context cleaned up after: {}.", signalType);
+            log.trace("Context cleaned up after.");
         });
     }
 
